@@ -167,18 +167,13 @@
 \clearpage
 \section{完整结果}
 \label{sec:supp-results}
+\suppressfloats[t]
 
 \input{supplementary_results}
 
 \FloatBarrier
 
-\section{发布与大语言模型使用说明}
+\section{发布与可复现性}
 \label{sec:supp-release}
 
-\subsection{发布与可复现性}
-
 为便于复现实验和比较结果，需要同时记录基准版本、模型仓库标识、模型输出、生成配置、裁判模型标识、API 端点和评分文件。自动裁判通过第三方兼容端点调用，仅凭请求中的模型标识，不能保证未来调用的服务端模型完全相同。发布材料不包含真实个人身份信息。
-
-\subsection{大语言模型使用说明}
-
-大语言模型用于辅助生成单轮和多轮候选合成情境，并根据研究者提出的修改意见生成修订文本。风险分类、审阅要求、样本保留决定、统计分析和论文结论均由研究者制定或核验。

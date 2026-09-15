@@ -1,19 +1,21 @@
 \subsection{Complete Model Results}
 
-\begin{table}[t]
+Table~\ref{tab:supp-models} reports model identifiers, mean scores, confidence intervals, and negative-score rates for both tracks.
+
+\begin{SuppTable}
 \caption{All 13 model results. Confidence intervals resample items; Neg. is
 the negative-score rate, that is, the percentage of scores below zero.}
 \label{tab:supp-models}
 \centering
-\scriptsize
+\fontsize{8}{9.6}\selectfont
 \setlength{\tabcolsep}{1.8pt}
 \renewcommand{\arraystretch}{1.22}
-\begin{tabular}{>{\raggedright\arraybackslash}p{0.48in}
-                  >{\raggedright\arraybackslash}p{1.42in}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.51in}
+                  >{\raggedright\arraybackslash}X
                   >{\centering\arraybackslash}p{0.38in}
-                  *{2}{>{\centering\arraybackslash}p{0.38in}
-                       >{\centering\arraybackslash}p{0.80in}
-                       >{\centering\arraybackslash}p{0.38in}}}
+                  *{2}{>{\centering\arraybackslash}p{0.37in}
+                       >{\centering\arraybackslash}p{0.90in}
+                       >{\centering\arraybackslash}p{0.29in}}}
 \toprule
 Family & Model / Hugging Face identifier & Params. &
 \multicolumn{3}{c}{Single-turn} & \multicolumn{3}{c}{Multi-turn}\\
@@ -35,26 +37,30 @@ InternLM & internlm/internlm2\_5-1\_8b-chat & 1.8B & $-0.263$ & $[-0.362,\,-0.16
 Qwen & Qwen/Qwen2.5-1.5B-Instruct & 1.5B & $-0.536$ & $[-0.638,\,-0.434]$ & 58.9 & $-1.530$ & $[-1.680,\,-1.370]$ & 93.0\\
 \bottomrule
 \multicolumn{9}{l}{\scriptsize $^\dagger$Approximately 2.4B active parameters per token.}
-\end{tabular}
-\end{table}
+\end{tabularx}
+\end{SuppTable}
 
+\FloatBarrier
+\Needspace{29\baselineskip}
 \subsection{Complete Track-Level Distributions}
 
-\begin{table}[t]
+The following tables summarize scores by single-turn risk domain and multi-turn mechanism.
+
+\begin{SuppTable}
 \caption{Single-turn top-level domains. Domain names are shortened display labels
 for the full taxonomy. Score columns report percentages pooled over all 13
 models; CIs resample item IDs.}
 \label{tab:supp-domains}
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.3pt}
-\renewcommand{\arraystretch}{1.12}
+\fontsize{8}{9.6}\selectfont
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.15}
 \rowcolors{2}{supppale}{white}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.34in}X
-                                 >{\centering\arraybackslash}p{0.28in}
-                                 >{\centering\arraybackslash}p{0.42in}
-                                 >{\centering\arraybackslash}p{0.80in}
-                                 *{6}{>{\centering\arraybackslash}p{0.40in}}}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.30in}>{\raggedright\arraybackslash}X
+                                 >{\centering\arraybackslash}p{0.22in}
+                                 >{\centering\arraybackslash}p{0.40in}
+                                 >{\centering\arraybackslash}p{0.96in}
+                                 *{6}{>{\centering\arraybackslash}p{0.30in}}}
 \toprule
 \rowcolor{supphead}
 ID & Domain & N & Mean & 95\% CI & Neg. & $-2$ & $-1$ & $0$ & $+1$ & $+2$\\
@@ -71,24 +77,24 @@ D01 & Social values & 75 & $0.542$ & $[0.370,\,0.708]$ & 29.4 & 14.4 & 15.1 & 4.
 D10 & Law and public order & 65 & $1.015$ & $[0.852,\,1.167]$ & 18.9 & 9.3 & 9.6 & 2.1 & 28.0 & 50.9\\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
-\begin{table}[t]
+\begin{SuppTable}
 \caption{Multi-turn mechanisms. Each row reports 130 scores from 13 models over
 ten domain-matched trajectories. For the confidence interval, scores are first
 averaged across domains within each model and then resampled over the 13 model
 means.}
 \label{tab:supp-mechanisms}
 \centering
-\scriptsize
-\setlength{\tabcolsep}{2.3pt}
-\renewcommand{\arraystretch}{1.12}
+\fontsize{8}{9.6}\selectfont
+\setlength{\tabcolsep}{2pt}
+\renewcommand{\arraystretch}{1.15}
 \rowcolors{2}{supppurplepale}{white}
-\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.34in}X
-                                 >{\centering\arraybackslash}p{0.28in}
-                                 >{\centering\arraybackslash}p{0.42in}
-                                 >{\centering\arraybackslash}p{0.80in}
-                                 *{6}{>{\centering\arraybackslash}p{0.40in}}}
+\begin{tabularx}{\textwidth}{>{\centering\arraybackslash}p{0.30in}>{\raggedright\arraybackslash}X
+                                 >{\centering\arraybackslash}p{0.22in}
+                                 >{\centering\arraybackslash}p{0.40in}
+                                 >{\centering\arraybackslash}p{0.96in}
+                                 *{6}{>{\centering\arraybackslash}p{0.30in}}}
 \toprule
 \rowcolor{supppurple!15}
 ID & Mechanism & N & Mean & 95\% CI & Neg. & $-2$ & $-1$ & $0$ & $+1$ & $+2$\\
@@ -105,10 +111,10 @@ M06 & Request narrowing & 10 & $0.292$ & $[-0.192,\,0.754]$ & 36.9 & 13.8 & 23.1
 M04 & Purpose reversal & 10 & $0.562$ & $[0.046,\,1.031]$ & 32.3 & 20.8 & 11.5 & 3.1 & 20.0 & 44.6\\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
 \FloatBarrier
-\begin{table}[t]
+\begin{SuppTable}
 \caption{All single-turn subdomains ordered from lower to higher mean score
 (1--25 of 50).}
 \label{tab:supp-subdomains-1}
@@ -118,7 +124,7 @@ M04 & Purpose reversal & 10 & $0.562$ & $[0.046,\,1.031]$ & 32.3 & 20.8 & 11.5 &
 \renewcommand{\arraystretch}{1.18}
 \rowcolors{2}{supppale}{white}
 \begin{tabularx}{0.94\textwidth}{>{\centering\arraybackslash}p{0.32in}X
-                                     >{\centering\arraybackslash}p{0.28in}
+                                     >{\centering\arraybackslash}p{0.22in}
                                      >{\centering\arraybackslash}p{0.52in}
                                      >{\centering\arraybackslash}p{0.52in}}
 \toprule
@@ -152,8 +158,8 @@ M04 & Purpose reversal & 10 & $0.562$ & $[0.046,\,1.031]$ & 32.3 & 20.8 & 11.5 &
 25 & Harmful community dependence and disconnection from real-world support & 10 & $0.338$ & 35.4\\
 \bottomrule
 \end{tabularx}
-\end{table}
-\begin{table}[t]
+\end{SuppTable}
+\begin{SuppTable}
 \caption{All single-turn subdomains ordered from lower to higher mean score
 (26--50 of 50).}
 \label{tab:supp-subdomains-2}
@@ -163,7 +169,7 @@ M04 & Purpose reversal & 10 & $0.562$ & $[0.046,\,1.031]$ & 32.3 & 20.8 & 11.5 &
 \renewcommand{\arraystretch}{1.18}
 \rowcolors{2}{supppale}{white}
 \begin{tabularx}{0.94\textwidth}{>{\centering\arraybackslash}p{0.32in}X
-                                     >{\centering\arraybackslash}p{0.28in}
+                                     >{\centering\arraybackslash}p{0.22in}
                                      >{\centering\arraybackslash}p{0.52in}
                                      >{\centering\arraybackslash}p{0.52in}}
 \toprule
@@ -197,12 +203,13 @@ M04 & Purpose reversal & 10 & $0.562$ & $[0.046,\,1.031]$ & 32.3 & 20.8 & 11.5 &
 50 & Online rumors, malicious reporting, opinion manipulation, and cyberbullying & 15 & $1.354$ & 9.2\\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
 \FloatBarrier
+\Needspace{29\baselineskip}
 \subsection{Statistical Tests}
 
-\begin{table}[htbp]
+\begin{SuppTable}
 \caption{Complete inferential tests. Correlations use 13 model means. The
 Friedman and Wilcoxon tests use 13 model-level blocks, with each mechanism
 represented by a mean over ten domains.}
@@ -240,22 +247,12 @@ M09 vs. M08 & $-0.4154$ & 0.08008 & 0.2402\\
 M09 vs. M10 & $-0.7769$ & 0.01270 & 0.06348\\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
+\Needspace{12\baselineskip}
 \subsection{Diagnostic Analyses Beyond Aggregate Scores}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=\textwidth]{figures/supplementary_diagnostics.pdf}
-\caption{Additional diagnostics derived from the released scores.
-Panel A pairs each model's single-turn domain mean with its multi-turn mean for
-the same domain, averaged over mechanisms. The tracks still contain different
-items. Panel B compares each model's overall multi-turn mean with the mean of
-its two weakest mechanisms. Panel C shows mechanisms as nodes sized by
-negative-score rate. An edge appears when their scores have Spearman
-correlation of at least 0.40 across 130 model--domain blocks.}
-\label{fig:supp-diagnostics}
-\end{figure}
+
 
 \paragraph{Cross-track transfer is partial.}
 At the matched-domain level, the two tracks have a descriptive Spearman
@@ -282,3 +279,16 @@ negative-score rates, yet their maximum pairwise correlations are only 0.33 and
 clusters in this model set. The graph is descriptive, and missing edges are not
 evidence of statistical independence. Mechanism-level diagnostics reveal
 variation that a single safety ranking would miss.
+
+\begin{SuppFigure}
+\centering
+\includegraphics[width=0.86\textwidth]{figures/supplementary_diagnostics.pdf}
+\caption{Additional diagnostics derived from the released scores.
+Panel A pairs each model's single-turn domain mean with its multi-turn mean for
+the same domain, averaged over mechanisms. The tracks still contain different
+items. Panel B compares each model's overall multi-turn mean with the mean of
+its two weakest mechanisms. Panel C shows mechanisms as nodes sized by
+negative-score rate. An edge appears when their scores have Spearman
+correlation of at least 0.40 across 130 model--domain blocks.}
+\label{fig:supp-diagnostics}
+\end{SuppFigure}

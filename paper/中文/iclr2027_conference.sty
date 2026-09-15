@@ -82,38 +82,38 @@
 % Title (includes both anonimized and non-anonimized versions)
 \def\@maketitle{\vbox{\hsize\textwidth
 %\linewidth\hsize \vskip 0.1in \toptitlebar \centering
-{\centering\fontsize{13.5}{17}\selectfont\bfseries\@title\par}
+{\LARGE\sc \@title\par}
 %\bottomtitlebar % \vskip 0.1in %  minus
 \ificlrfinal
-    \lhead{Published as a conference paper at ICLR 2026}
+    \lhead{Published as a conference paper at ICLR 2027}
     \def\And{\end{tabular}\hfil\linebreak[0]\hfil
             \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
   \def\AND{\end{tabular}\hfil\linebreak[4]\hfil
             \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
     \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\@author\end{tabular}%
 \else
-       \lhead{Under review as a conference paper at ICLR 2026}
+       \lhead{Under review as a conference paper at ICLR 2027}
    \def\And{\end{tabular}\hfil\linebreak[0]\hfil
             \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
   \def\AND{\end{tabular}\hfil\linebreak[4]\hfil
             \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}\ignorespaces}%
-    \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}匿名作者\\双盲评审稿\end{tabular}%
+    \begin{tabular}[t]{l}\bf\rule{\z@}{24pt}Anonymous authors\\Paper under double-blind review\end{tabular}%
 \fi
 \vskip 0.3in minus 0.1in}}
 
-\renewenvironment{abstract}{\vskip.075in\centerline{\large\bfseries
-摘要}\vspace{0.5ex}\begin{quote}}{\par\end{quote}\vskip 1ex}
+\renewenvironment{abstract}{\vskip.075in\centerline{\large\sc
+Abstract}\vspace{0.5ex}\begin{quote}}{\par\end{quote}\vskip 1ex}
 
 % sections with less space
 \def\section{\@startsection {section}{1}{\z@}{-2.0ex plus
     -0.5ex minus -.2ex}{1.5ex plus 0.3ex
-minus0.2ex}{\large\bfseries\raggedright}}
+minus0.2ex}{\large\sc\raggedright}}
 
 \def\subsection{\@startsection{subsection}{2}{\z@}{-1.8ex plus
--0.5ex minus -.2ex}{0.8ex plus .2ex}{\normalsize\bfseries\raggedright}}
+-0.5ex minus -.2ex}{0.8ex plus .2ex}{\normalsize\sc\raggedright}}
 \def\subsubsection{\@startsection{subsubsection}{3}{\z@}{-1.5ex
 plus      -0.5ex minus -.2ex}{0.5ex plus
-.2ex}{\normalsize\bfseries\raggedright}}
+.2ex}{\normalsize\sc\raggedright}}
 \def\paragraph{\@startsection{paragraph}{4}{\z@}{1.5ex plus
 0.5ex minus .2ex}{-1em}{\normalsize\bf}}
 \def\subparagraph{\@startsection{subparagraph}{5}{\z@}{1.5ex plus
@@ -244,4 +244,3 @@ plus      -0.5ex minus -.2ex}{0.5ex plus
 % \hspace*{-1.8cm}
 % \colorbox[rgb]{0.7,0.7,0.7}{\small \parbox[b][\textheight]{0.1cm}{}}}
 % }
-

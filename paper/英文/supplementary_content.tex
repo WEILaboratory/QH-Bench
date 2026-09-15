@@ -1,3 +1,10 @@
+\providecommand{\Needspace}[1]{\par\begingroup\ifdim\dimexpr\pagegoal-\pagetotal\relax<#1\relax\newpage\fi\endgroup}
+% Keep supplementary displays within their sections instead of floating across headings.
+\makeatletter
+\newenvironment{SuppTable}{\par\addvspace{10pt}\noindent\begin{minipage}{\textwidth}\def\@captype{table}}{\end{minipage}\par\addvspace{10pt}}
+\newenvironment{SuppFigure}{\par\addvspace{10pt}\noindent\begin{minipage}{\textwidth}\def\@captype{figure}}{\end{minipage}\par\addvspace{10pt}}
+\makeatother
+\raggedbottom
 \renewcommand{\thefigure}{S\arabic{figure}}
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\theHfigure}{S\arabic{figure}}
@@ -46,7 +53,7 @@
 
 Released records contain the labels used for analysis and the text sent to the models. Table~\ref{tab:supp-schema} shows how these fields are used during inference. Appendix~\ref{sec:supp-evaluation} describes the judge inputs.
 
-\begin{table}[t]
+\begin{SuppTable}
 \caption{Stored benchmark fields and their use during execution.}
 \label{tab:supp-schema}
 \centering
@@ -63,19 +70,21 @@ Single-turn & Stable item ID; three taxonomy labels; background; user message & 
 Multi-turn & Stable item ID; mechanism ID and name; scenario; background; four ordered user messages & The background and turn 1 form the initial input; turns 2--4 contain earlier user messages, the model's preceding responses, and the current pre-specified message \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
+\Needspace{28\baselineskip}
 \section{Multi-Turn Risk Mechanisms and Worked Example}\hypertarget{supp-mechanisms}{}
 
 \input{supplementary_examples}
 
+\Needspace{28\baselineskip}
 \section{Evaluation Materials and Reproducibility}
 \label{sec:supp-evaluation}
 
 \subsection{Models, Hardware and Generation Settings}
 
 Inference ran on NVIDIA A100 80GB PCIe GPUs, with one or two GPUs assigned to each model. vLLM provided the OpenAI-compatible chat interface. Table~\ref{tab:supp-config} lists the shared settings. Appendix~\ref{sec:supp-results} gives the complete model list and results.
-\begin{table}[t]
+\begin{SuppTable}
 \caption{Generation and scoring configuration.}
 \label{tab:supp-config}
 \centering
@@ -96,7 +105,7 @@ Request and parsing & Extract the JSON returned by the judge and verify that the
 Statistics & 20,000 bootstrap replicates; random seed 20,260,721; two-sided tests \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
 \subsection{Judge Input and Output Structure}
 
@@ -120,7 +129,7 @@ You are an evaluator of content safety in conversations with Chinese adolescents
 \endgroup
 
 \vspace{6pt}
-\begin{table}[t]
+\begin{SuppTable}
 \caption{Material supplied to the automatic judge. Field names are translated for readability.}
 \label{tab:supp-payloads}
 \centering
@@ -135,23 +144,24 @@ Single-turn & \texttt{user\_input: background + message; model\_response: output
 Multi-turn & \texttt{dialogue: [user1, assistant1, \ldots, user4, assistant4]}. Mechanism ID, mechanism name and risk labels are not included. \\
 \bottomrule
 \end{tabularx}
-\end{table}
+\end{SuppTable}
 
 \subsection{Scoring Boundary Cases}
 
 Both tracks use the same five levels but apply task-specific criteria. Single-turn scoring combines the background with the current user message. Multi-turn scoring evaluates the complete interaction and follows changes in risk information across turns. Warnings or disclaimers do not cancel unsafe help already supplied. Empathy is not endorsement. An answer becomes risk-enabling when it endorses the risky position, adopts the risky premise, promises secrecy, or provides practical support for that premise. A later correction affects the multi-turn score, but continued risk enablement can still make the complete interaction negative.
 
+\Needspace{26\baselineskip}
 \subsection{Human-Scoring Audit}
 \label{sec:supp-human-audit}
 
 One annotator scored 100 single-turn responses and 50 complete multi-turn interactions. Items were sampled at fixed intervals across nine non-GLM models from the DeepSeek, InternLM, and Qwen families. Because only one annotator was used, this is not an inter-annotator study. The human scores serve as a reference rather than error-free ground truth. Figure~\ref{fig:supp-human-agreement} shows the aggregate confusion matrix and paired score differences.
 
-\begin{figure}[t]
+\begin{SuppFigure}
 \centering
 \includegraphics[width=0.96\textwidth]{figures/human_judge_agreement.pdf}
 \caption{Comparison between one human annotator and the automatic judge on 150 audited units. The left panel is the five-level confusion matrix; the right panel shows the paired difference (automatic-judge score minus human score), with negative values indicating a lower judge score.}
 \label{fig:supp-human-agreement}
-\end{figure}
+\end{SuppFigure}
 
 \subsection{Confidence Intervals and Statistical Tests}
 
@@ -160,18 +170,14 @@ Model-level confidence intervals resample test items. Track-level intervals resa
 \clearpage
 \section{Complete Results}
 \label{sec:supp-results}
+\suppressfloats[t]
 
 \input{supplementary_results}
 
 \FloatBarrier
 
-\section{Release and Large-Language-Model Use}
+\Needspace{8\baselineskip}
+\section{Release and Reproducibility}
 \label{sec:supp-release}
 
-\subsection{Release and Reproducibility}
-
 To reproduce a run, record the benchmark version, model repository identifiers, model outputs, generation settings, judge model identifier, API endpoint, and score files. The automatic judge uses a third-party OpenAI-compatible endpoint, so the model identifier alone may not uniquely identify the server-side model used for a future request. Released materials contain no real personal identifiers.
-
-\subsection{Large-Language-Model Use}
-
-A large language model assisted with candidate scenario generation for both tracks and with text revision after researcher feedback. The researchers specified or verified the risk taxonomy, review requirements, retention decisions, statistical analyses and conclusions.

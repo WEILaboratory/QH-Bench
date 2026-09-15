@@ -1,6 +1,6 @@
 \PassOptionsToPackage{table}{xcolor}
 \documentclass{article}
-\usepackage{iclr2026_conference,times}
+\usepackage{iclr2027_conference,times}
 
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -10,6 +10,7 @@
 \usepackage{tabularx}
 \usepackage{xcolor}
 \usepackage{placeins}
+\newcommand{\Needspace}[1]{\par\begingroup\ifdim\dimexpr\pagegoal-\pagetotal\relax<#1\relax\newpage\fi\endgroup}
 \usepackage{hyperref}
 \usepackage{url}
 \hypersetup{hidelinks}
@@ -60,7 +61,7 @@
 \ifdefined\showauthors
   \lhead{}
 \else
-  \lhead{Under review as a conference paper at ICLR 2026}
+  \lhead{Under review as a conference paper at ICLR 2027}
 \fi
 
 \begin{abstract}
@@ -69,9 +70,9 @@ Safety risks in conversations with adolescents are not always explicit. A reques
 
 \section{Introduction}
 
-General content-safety benchmarks evaluate harmful-content detection, refusal behavior, and robustness to jailbreak attacks~\cite{wang2024donotanswer,li2024salad,chao2024jailbreakbench,han2024wildguard}. Safety classifiers assess whether user prompts and model responses violate safety policies and can also detect refusals~\cite{han2024wildguard}. Chinese benchmarks add local language, regulatory environments, and social values~\cite{xu2023cvalues,huang2024flames,wang2024chinesesafeguards,zhang2024chinesesafe,zhang2024chisafetybench}. Research on children and adolescents shows that safety evaluations should account for age, developmental stage, and the specific circumstances of an interaction~\cite{khoo2025minorbench,jiao2025safechild,rath2025children,yu2025youthsafe}. A safe response must therefore detect the risk and provide age-appropriate, actionable help. Broad safety categories, even when translated into Chinese, do not capture these age-specific safety needs.
+General content-safety benchmarks evaluate harmful-content detection, refusal behavior, and robustness to jailbreak attacks~\citep{wang2024donotanswer,li2024salad,chao2024jailbreakbench,han2024wildguard}. Safety classifiers assess whether user prompts and model responses violate safety policies and can also detect refusals~\citep{han2024wildguard}. Chinese benchmarks add local language, regulatory environments, and social values~\citep{xu2023cvalues,huang2024flames,wang2024chinesesafeguards,zhang2024chinesesafe,zhang2024chisafetybench}. Research on children and adolescents shows that safety evaluations should account for age, developmental stage, and the specific circumstances of an interaction~\citep{khoo2025minorbench,jiao2025safechild,rath2025children,yu2025youthsafe}. A safe response must therefore detect the risk and provide age-appropriate, actionable help. Broad safety categories, even when translated into Chinese, do not capture these age-specific safety needs.
 
-Multi-turn dialogue can create or reveal risks through the conversation history. A later utterance may refer to earlier risky content through a pronoun or omission. Several incomplete fragments may become harmful when combined. New information about the situation can change the safety assessment. Prior work examines coreference, concealed intent in role or relationship settings, request decomposition, multi-turn jailbreaks, and long-context safety~\cite{yu2024cosafe,jiang2025redqueen,srivastav2025together,cao2026safedialbench,lu2025longsafety}. These studies use different risk types, dialogue designs, and scoring procedures, so the mechanisms they study are difficult to compare directly.
+Multi-turn dialogue can create or reveal risks through the conversation history. A later utterance may refer to earlier risky content through a pronoun or omission. Several incomplete fragments may become harmful when combined. New information about the situation can change the safety assessment. Prior work examines coreference, concealed intent in role or relationship settings, request decomposition, multi-turn jailbreaks, and long-context safety~\citep{yu2024cosafe,jiang2025redqueen,srivastav2025together,cao2026safedialbench,lu2025longsafety}. These studies use different risk types, dialogue designs, and scoring procedures, so the mechanisms they study are difficult to compare directly.
 
 \begin{figure}[!htb]
     \centering
@@ -93,13 +94,13 @@ The evaluation reports the two tracks separately because they contain different 
 \section{Related Work}
 
 \paragraph{General and Chinese safety.}
-General safety research covers preference data, harm taxonomies, refusal behavior, automated red teaming, content moderation, and over-refusal~\cite{ji2023beavertails,zhang2024safetybench,li2024salad,wang2024donotanswer,vidgen2023simplesafety,tedeschi2024alert,mazeika2024harmbench,souly2024strongreject,chao2024jailbreakbench,han2024wildguard,ghosh2025aegis,rottger2024xstest}. Chinese benchmarks add local values, moderation categories, and direct or indirect expressions of risk~\cite{xu2023cvalues,huang2024flames,zhang2024chinesesafe,wang2024chinesesafeguards,zhang2024chisafetybench}. Many general-purpose benchmarks evaluate isolated prompts or prompt--response pairs and target general users. They therefore provide limited evidence about model behavior in specific settings involving Chinese adolescents.
+General safety research covers preference data, harm taxonomies, refusal behavior, automated red teaming, content moderation, and over-refusal~\citep{ji2023beavertails,zhang2024safetybench,li2024salad,wang2024donotanswer,vidgen2023simplesafety,tedeschi2024alert,mazeika2024harmbench,souly2024strongreject,chao2024jailbreakbench,han2024wildguard,ghosh2025aegis,rottger2024xstest}. Chinese benchmarks add local values, moderation categories, and direct or indirect expressions of risk~\citep{xu2023cvalues,huang2024flames,zhang2024chinesesafe,wang2024chinesesafeguards,zhang2024chisafetybench}. Many general-purpose benchmarks evaluate isolated prompts or prompt--response pairs and target general users. They therefore provide limited evidence about model behavior in specific settings involving Chinese adolescents.
 
 \paragraph{Child and adolescent safety.}
-MinorBench and Safe-Child-LLM build age-specific risk sets~\cite{khoo2025minorbench,jiao2025safechild}. LLM Safety for Children simulates child dialogue~\cite{rath2025children}. YouthSafe proposes an adolescent risk taxonomy and safeguard model~\cite{yu2025youthsafe}, while ChildEval studies child-centered preference following in long-context conversations rather than safety evaluation~\cite{luo2026childeval}. KIDBench combines child-oriented single-turn queries with multi-turn simulation~\cite{arif2026kidbench}. CAREBench focuses on manipulation, impersonation, privacy, and emotional dependence~\cite{krishnakumar2026carebench}. Together, these studies motivate modeling age and developmental stage. \bench{} extends this line of work with fine-grained scenarios involving Chinese adolescents and ten cross-turn mechanisms.
+MinorBench and Safe-Child-LLM build age-specific risk sets~\citep{khoo2025minorbench,jiao2025safechild}. LLM Safety for Children simulates child dialogue~\citep{rath2025children}. YouthSafe proposes an adolescent risk taxonomy and safeguard model~\citep{yu2025youthsafe}, while ChildEval studies child-centered preference following in long-context conversations rather than safety evaluation~\citep{luo2026childeval}. KIDBench combines child-oriented single-turn queries with multi-turn simulation~\citep{arif2026kidbench}. CAREBench focuses on manipulation, impersonation, privacy, and emotional dependence~\citep{krishnakumar2026carebench}. Together, these studies motivate modeling age and developmental stage. \bench{} extends this line of work with fine-grained scenarios involving Chinese adolescents and ten cross-turn mechanisms.
 
 \paragraph{Multi-turn and dialogue-history safety.}
-SafeConv labels unsafe spans and provides safe alternative responses. LongSafety studies safety in long-context interactions~\cite{zhang2023safeconv,lu2025longsafety}. Other benchmarks examine coreference, concealed intent in role or relationship settings, cognitive dynamics, request decomposition, jailbreak strategies, general multi-turn ability, or multimodal context switching~\cite{yu2024cosafe,jiang2025redqueen,zhang2025cogsafe,srivastav2025together,cao2026safedialbench,kwan2024mteval,liu2026mtmcs}. \bench{} combines ten mechanisms with the same ten top-level domains. This structure allows direct descriptive comparisons between domains and mechanisms within one benchmark.
+SafeConv labels unsafe spans and provides safe alternative responses. LongSafety studies safety in long-context interactions~\citep{zhang2023safeconv,lu2025longsafety}. Other benchmarks examine coreference, concealed intent in role or relationship settings, cognitive dynamics, request decomposition, jailbreak strategies, general multi-turn ability, or multimodal context switching~\citep{yu2024cosafe,jiang2025redqueen,zhang2025cogsafe,srivastav2025together,cao2026safedialbench,kwan2024mteval,liu2026mtmcs}. \bench{} combines ten mechanisms with the same ten top-level domains. This structure allows direct descriptive comparisons between domains and mechanisms within one benchmark.
 
 \input{benchmark_comparison}
 \FloatBarrier
@@ -162,8 +163,9 @@ The multi-turn track contains 100 four-turn trajectories and 400 pre-specified u
 The ten mechanisms in Table~\ref{tab:mechanisms} are not new harm categories. They describe how dialogue history contributes to risk formation. For example, M02 links a later pronoun or omission to earlier risky content. M03 combines fragments distributed across turns. M07 captures changes in consent, authority, health, or authenticity that alter an earlier judgment, whereas M09 captures relational pressure that builds across turns. Complete examples appear in \appmechanisms{}.
 
 \subsection{Data Construction and Quality Control}
+\label{sec:construction}
 
-All records are synthetic scenarios rather than real adolescent conversations. After defining the three-level taxonomy, a large language model generated five candidate single-turn items for each fine-grained risk scenario. Each candidate contained a scenario background and user message. Researchers checked whether each item represented the assigned risk, was plausible in an adolescent setting, and used natural Chinese to portray the relevant relationships and motivations. They revised or regenerated items that failed these checks, then reviewed the revised items before inclusion.
+All records are synthetic scenarios rather than real adolescent conversations. GPT-5.5, accessed through Codex, generated candidates for both tracks. After the three-level taxonomy was defined, it generated five candidate single-turn items per fine-grained risk scenario, each containing a background and user message. Researchers checked the assigned risk, plausibility in an adolescent setting, and naturalness of the Chinese language, relationships, and motivations. Items that failed these checks were revised or regenerated and reviewed again before inclusion.
 
 Multi-turn items followed the same generate--review--revise process. For each risk-domain--mechanism pair, the model generated four user messages and a background. Researchers checked whether later requests required earlier information, whether the history expressed the intended mechanism, whether the progression was natural, and whether the trajectory matched its risk domain. Unsatisfactory trajectories were revised or regenerated. One four-turn trajectory was retained for each domain--mechanism cell.
 
@@ -178,6 +180,7 @@ The evaluation covers 13 open-weight models from the Qwen2.5, InternLM2.5, GLM-4
 For each multi-turn item, the background and the first pre-specified user message form the initial input. Turns 2--4 include the earlier user messages, the model's earlier responses, and the current pre-specified message. The conversation state is reset between items. Every model receives the same user-message sequence, and later messages do not depend on model output. The evaluation therefore uses a fixed user script rather than an adaptive user simulator.
 
 \subsection{Scoring and Analysis}
+\label{sec:scoring}
 
 The automatic judge uses \texttt{claude-opus-4-8} at temperature 0 through a third-party OpenAI-compatible endpoint. For a single-turn item, it receives the background, user message, and model response. For a multi-turn item, it receives the complete four-turn interaction and returns one score for the trajectory. The prompt requires chronological reasoning. Later information must not penalize an earlier reasonable response, but the judge must update the assessment when a new risk becomes visible.
 
@@ -215,6 +218,7 @@ One human annotator scored 100 single-turn responses and 50 complete multi-turn 
 
 After summarizing overall benchmark performance, the analysis addresses four questions. First, does multi-turn evaluation provide information beyond single-turn evaluation? Second, where are models weakest across the single-turn risk domains? Third, which cross-turn mechanisms are most challenging for models? Finally, which domain--mechanism combinations reveal weaknesses beyond either factor alone?
 
+\Needspace{8\baselineskip}
 \subsection{Overall Benchmark Performance}
 
 \begin{figure}[!htb]
@@ -233,6 +237,7 @@ Multi-turn performance also depends on how risk unfolds in conversation. GLM-4-3
 
 Model mean scores are positively correlated across tracks (Spearman $\rho=0.732$, $p=0.0045$), but several models change position (Figure~\ref{fig:capability-map}). InternLM2.5-20B ranks first on the single-turn track and third on the multi-turn track; GLM-4-32B ranks sixth and first, respectively. Performance on isolated requests therefore does not fully reflect performance in continuing conversations: DeepSeek-V2-Lite ranks third on the single-turn track but eighth on the multi-turn track.
 
+\Needspace{8\baselineskip}
 \subsection{RQ2: Where Are Models Weakest Across the Single-Turn Risk Domains?}
 
 \begin{figure}[!htb]
@@ -263,7 +268,7 @@ Some domain--mechanism combinations reveal weaknesses that are not apparent from
 \end{figure}
 \FloatBarrier
 
-\paragraph{Scoring audit.} Human and automatic scores match on 73.3\% of the 150 audited units, with quadratic-weighted Cohen's $\kappa=0.715$. In the 40 disagreements, the automatic judge assigns the lower score 38 times and the higher score twice (two-sided exact sign test, $p=1.49\times10^{-9}$). The complete confusion matrix is in \appref{sec:supp-results}.
+\paragraph{Scoring audit.} Human and automatic scores match on 73.3\% of the 150 audited units, with quadratic-weighted Cohen's $\kappa=0.715$. In the 40 disagreements, the automatic judge assigns the lower score 38 times and the higher score twice (two-sided exact sign test, $p=1.49\times10^{-9}$). The complete confusion matrix is in \appref{sec:supp-human-audit}.
 
 \section{Discussion and Limitations}
 
@@ -278,7 +283,8 @@ The results characterize performance on the constructed \bench{} item set. The a
 \bench{} evaluates Chinese adolescent content safety with complementary single- and multi-turn tracks. Across 13 open-weight models, it distinguishes overall performance and locates weaknesses by risk domain, cross-turn mechanism, and their combination. Negative-score cases remain even among the leaders on each track. These diagnostics show where model responses require improvement beyond one aggregate safety score.
 
 \clearpage
-\bibliographystyle{iclr2026_conference}
+\input{submission_statements}
+\bibliographystyle{iclr2027_conference}
 \bibliography{references}
 
 \clearpage

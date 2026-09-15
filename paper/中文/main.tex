@@ -7,9 +7,10 @@
   \pdfobjcompresslevel=1
 \fi
 \usepackage{CJKutf8}
-\usepackage{iclr2026_conference,times}
+\usepackage{iclr2027_conference,times}
 % CJKutf8 uses pdfLaTeX-compatible CJK fonts available in Overleaf.
 \renewcommand{\scdefault}{n}
+\renewcommand{\bfdefault}{bx}
 
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -19,6 +20,7 @@
 \usepackage{tabularx}
 \usepackage{xcolor}
 \usepackage{placeins}
+\newcommand{\Needspace}[1]{\par\begingroup\ifdim\dimexpr\pagegoal-\pagetotal\relax<#1\relax\newpage\fi\endgroup}
 \usepackage{hyperref}
 \usepackage{url}
 \hypersetup{hidelinks}
@@ -102,7 +104,7 @@
 \ifdefined\showauthors
   \lhead{}
 \else
-  \lhead{作为 ICLR 2026 会议论文接受匿名评审}
+  \lhead{作为 ICLR 2027 会议论文接受匿名评审}
 \fi
 
 \begin{abstract}
@@ -208,8 +210,9 @@ SafeConv 标注不安全内容片段及其修正，LongSafety 考察长上下文
 表~\ref{tab:mechanisms} 中的十种机制用于区分多轮对话中需要处理的信息联系和安全要求，不是额外的风险领域。例如，M02 要求模型联系前文理解代词或省略，M03 要求识别分散信息组合后的危害；M07 要求在同意、授权等条件变化后重新判断，M09 则考察用户以忠诚、保密等关系要求施压时，模型能否坚持安全原则。完整示例见\appmechanisms{}。
 
 \subsection{数据构建与质量控制}
+\label{sec:construction}
 
-所有记录均为合成场景，不来自真实青少年对话。在建立三级风险分类后，我们使用大语言模型为每个三级风险场景生成五个候选单轮样本。每个候选样本由情景背景和用户消息构成。研究者围绕三个维度审阅候选样本：其一，文本是否准确呈现对应三级风险场景，而非引入无关风险；其二，风险程度及其与青少年生活情境的匹配是否合理；其三，中文表达、人物关系和对话动机是否自然。对于未满足上述要求的候选样本，研究者给出修改意见，再由大语言模型生成修订版本；经再次审阅后保留进入测试集的样本。
+所有记录均为合成场景，不来自真实青少年对话。单轮和多轮候选样本均通过 Codex 中的 GPT-5.5 生成。在建立三级风险分类后，我们为每个三级风险场景生成五个候选单轮样本。每个候选样本由情景背景和用户消息构成。研究者围绕三个维度审阅候选样本：其一，文本是否准确呈现对应三级风险场景，而非引入无关风险；其二，风险程度及其与青少年生活情境的匹配是否合理；其三，中文表达、人物关系和对话动机是否自然。对于未满足上述要求的候选样本，研究者给出修改意见，再由大语言模型生成修订版本；经再次审阅后保留进入测试集的样本。
 
 多轮样本采用相同的“生成—审阅—修订”流程，但构建单位是“风险领域—多轮风险机制”组合。对每个组合，我们先要求大语言模型生成四轮用户消息及其情景背景，再由研究者审阅：后续请求中的核心风险是否需要结合前序信息才能充分识别；对话历史是否确实体现预设的多轮风险机制；各轮之间的推进是否自然；以及整个轨迹是否仍与对应的青少年风险领域相符。未满足这些条件的轨迹被修改或重新生成。最终，每个领域—机制组合保留一条四轮测试样本。
 
@@ -224,6 +227,7 @@ SafeConv 标注不安全内容片段及其修正，LongSafety 考察长上下文
 对每个多轮测试样本，背景与第 1 条预设用户消息先合并为一条输入。第 2--4 轮请求均向模型提供同一样本内此前的用户消息、该模型此前生成的回答和当前预设用户消息；一个样本结束后，下一样本从空上下文开始。所有模型接收相同的预设用户消息序列，后续用户消息不会根据模型回答动态改写。因此，这是一项由固定用户脚本驱动的多轮评测，而不是自适应用户模拟。
 
 \subsection{评分与分析}
+\label{sec:scoring}
 
 自动裁判的请求模型标识为 \texttt{claude-opus-4-8}，生成温度设为 0，并通过第三方 OpenAI-compatible API 端点调用。提供给裁判的单轮材料包括情景背景、用户消息和一个模型回答；多轮材料包括完整的四轮用户—模型交互。裁判为整次多轮交互给出一个总分，而不是分别为四轮评分。评分提示要求按时间顺序使用证据：评判早期回答时不得使用当时尚未出现的后续信息；新风险线索出现后，则依据模型是否相应调整后续回答评价整次交互。
 
@@ -258,6 +262,7 @@ SafeConv 标注不安全内容片段及其修正，LongSafety 考察长上下文
 
 本节先报告总体评测表现，再回答四个问题：多轮评测提供了哪些单轮评测未涵盖的信息；模型在单轮风险领域中的主要薄弱环节是什么；哪些跨轮风险机制更具挑战；哪些领域—机制组合暴露了单独分析领域或机制时难以发现的薄弱环节。
 
+\Needspace{8\baselineskip}
 \subsection{总体评测表现}
 
 \begin{figure}[!htb]
@@ -278,6 +283,7 @@ SafeConv 标注不安全内容片段及其修正，LongSafety 考察长上下文
 
 两类评测的模型均分呈正相关（Spearman $\rho=0.732$，$p=0.0045$），但部分模型的排序明显变化（图~\ref{fig:capability-map}）。InternLM2.5-20B 在单轮评测中排名第一、在多轮评测中排名第三；GLM-4-32B 分别排名第六和第一。这些排名变化说明，处理单次请求的表现，不能完全反映模型在连续对话中处理风险的能力。例如，DeepSeek-V2-Lite 在单轮评测中排名第三，在多轮评测中仅排名第八。
 
+\Needspace{8\baselineskip}
 \subsection{RQ2：模型在单轮风险领域中的主要薄弱环节是什么？}
 
 \begin{figure}[!htb]
@@ -323,7 +329,8 @@ D09 线下人身安全的单轮领域均分最低，为 $-0.168$，负分率最�
 \bench{} 通过单轮与多轮评测考察中国青少年情境中的内容安全。对 13 个开源模型的测试发现，线下接触类问题在所有被测模型中都有较多负分回答，总体得分领先的模型在部分多轮机制下也存在明显不足。按风险领域、跨轮机制及其组合分析结果，可以明确模型在哪些测试情境中仍会给出推动风险的回答，为后续改进提供具体依据。
 
 \clearpage
-\bibliographystyle{iclr2026_conference}
+\input{submission_statements}
+\bibliographystyle{iclr2027_conference}
 \bibliography{references}
 
 \clearpage
