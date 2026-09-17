@@ -1,7 +1,0 @@
-# Allow a clean main-plus-supplement build to resolve BibTeX, floats and
-# appendix links. Two passes can stop before page references stabilize.
-# Keep a finite cap so a genuine rerun loop still fails visibly.
-$max_repeat = 5;
-
-# Stop at the first real TeX error so Overleaf reports the cause immediately.
-$pdflatex = 'pdflatex -interaction=nonstopmode -halt-on-error -file-line-error %O %S';
